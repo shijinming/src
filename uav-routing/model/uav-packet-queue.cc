@@ -29,8 +29,7 @@ PacketQueue::Enqueue (QueueEntry & entry)
        != m_queue.end (); ++i)
     {
       if ((i->GetPacket ()->GetUid () == entry.GetPacket ()->GetUid ())
-          && (i->GetIpv4Header ().GetDestination ()
-              == entry.GetIpv4Header ().GetDestination ()))
+          && (i->GetIpv4Header ().GetDestination () == entry.GetIpv4Header ().GetDestination ()))
         {
           return false;
         }
