@@ -1,0 +1,43 @@
+# -*- Mode: python; py-indent-offset: 4; indent-tabs-mode: nil; coding: utf-8; -*-
+
+# def options(opt):
+#     pass
+
+# def configure(conf):
+#     conf.check_nonfatal(header_name='stdint.h', define_name='HAVE_STDINT_H')
+
+def build(bld):
+    module = bld.create_ns3_module('tdma', ['core','network','wifi'])
+    module.source = [
+        'model/tdma-header.cc',
+        'model/tdma-mac.cc',
+        'model/tdma-net-device.cc',
+        'model/tdma-slot-manager.cc',
+        'helper/tdma-helper.cc',
+        'helper/tdma-mac-helper.cc'
+        ]
+
+    module_test = bld.create_ns3_module_test_library('tdma')
+    module_test.source = [
+        'test/single-node-test.cc',
+        'test/two-nodes-test.cc',
+        'test/slot-manager-test.cc',
+        'test/tdma-test-suite.cc',
+        ]
+
+    headers = bld(features='ns3header')
+    headers.module = 'tdma'
+    headers.source = [
+        'model/tdma-header.h',
+        'model/tdma-mac.h',
+        'model/tdma-net-device.h',
+        'model/tdma-slot-manager.h',
+        'helper/tdma-helper.h',
+        'helper/tdma-mac-helper.h'
+        ]
+
+    if bld.env.ENABLE_EXAMPLES:
+        bld.recurse('examples')
+
+    bld.ns3_python_bindings()
+
